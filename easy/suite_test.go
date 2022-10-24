@@ -4,11 +4,135 @@ import (
 	"encoding/json"
 	"math"
 	"testing"
+	"time"
 
+	"github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/ginkgo/v2/dsl/core"
+	"github.com/onsi/ginkgo/v2/dsl/decorators"
+	g "github.com/onsi/gomega"
+	"github.com/onsi/gomega/gmeasure"
 	"github.com/stretchr/testify/assert"
 )
 
 var p = &Practice{}
+
+func TestEasy(t *testing.T) {
+	g.RegisterFailHandler(ginkgo.Fail)
+	ginkgo.RunSpecs(t, "medium problems")
+}
+
+var _ = BeforeSuite(func() {
+	p = &Practice{}
+})
+
+var _ = Describe("easy problems", func() {
+
+	FDescribe("valid parentheses", func ()  {
+		type input struct {
+			S string
+		}
+
+		var testCases = []struct {
+			input  input
+			expect bool
+		}{
+			{
+				input: input{
+					S: "(())",
+				},
+				expect: true,
+			},
+			{
+				input: input{
+					S:"([)]",
+				},
+				expect: false,
+			},
+		}
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := p.ValidParentheses(tc.input.S)
+				check2(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
+
+	Describe("climb stairs", func() {
+
+		type input struct {
+			N int
+		}
+
+		var testCases = []struct {
+			input  input
+			expect int
+		}{
+			{
+				input: input{
+					N: 1,
+				},
+				expect: 1,
+			},
+			{
+				input: input{
+					N: 2,
+				},
+				expect: 2,
+			},
+			{
+				input: input{
+					N: 3,
+				},
+				expect: 3,
+			},
+			{
+				input: input{
+					N: 4,
+				},
+				expect: 5,
+			},
+			{
+				input: input{
+					N: 5,
+				},
+				expect: 8,
+			},
+		}
+
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := p.ClimbStairs(tc.input.N)
+				check2(i, tc.expect, actual, tc.input)
+			}
+		})
+
+		It("benchmark", decorators.Serial, func() {
+			expr := gmeasure.NewExperiment("climb stairs benchmark")
+			ginkgo.AddReportEntry(expr.Name, expr)
+
+			expr.SampleDuration("my climb stairs", func(_ int) {
+				for i := range testCases {
+					tc := testCases[i]
+					p.ClimbStairs(tc.input.N)
+				}
+			}, gmeasure.SamplingConfig{Duration: 2 * time.Second})
+
+			expr.SampleDuration("another climb stairs", func(_ int) {
+				for i := range testCases {
+					tc := testCases[i]
+					p.ClimbStairs2(tc.input.N)
+				}
+			}, gmeasure.SamplingConfig{Duration: 2 * time.Second})
+		})
+	})
+})
+
+func check2(i int, expect, actual, input any) {
+	raw, _ := json.Marshal(input)
+	g.Expect(actual).WithOffset(1).To(g.Equal(expect), "test case %d with input %s", i, string(raw))
+}
 
 func TestContainsDuplicate(t *testing.T) {
 	a := assert.New(t)
@@ -145,75 +269,6 @@ func TestIsPalindrome(t *testing.T) {
 		actual := p.IsPalindrome(tc.input.S)
 		raw, _ := json.MarshalIndent(tc.input, "", "  ")
 		a.Equal(tc.expect, actual, "test case %d with input %s", i, string(raw))
-	}
-}
-
-type climbStairInput struct {
-	N int
-}
-
-var climbStairsTestCases = []struct {
-	input  climbStairInput
-	expect int
-}{
-	{
-		input: climbStairInput{
-			N: 1,
-		},
-		expect: 1,
-	},
-	{
-		input: climbStairInput{
-			N: 2,
-		},
-		expect: 2,
-	},
-	{
-		input: climbStairInput{
-			N: 3,
-		},
-		expect: 3,
-	},
-	{
-		input: climbStairInput{
-			N: 4,
-		},
-		expect: 5,
-	},
-	{
-		input: climbStairInput{
-			N: 5,
-		},
-		expect: 8,
-	},
-}
-
-func TestClimbStairs(t *testing.T) {
-	a := assert.New(t)
-
-	for i := range climbStairsTestCases {
-		tc := climbStairsTestCases[i]
-		actual := p.ClimbStairs2(tc.input.N)
-		raw, _ := json.MarshalIndent(tc.input, "", "  ")
-		a.Equal(tc.expect, actual, "test case %d with input %s", i, string(raw))
-	}
-}
-
-func BenchmarkClimbStairs(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		for i := range climbStairsTestCases {
-			tc := climbStairsTestCases[i]
-			p.ClimbStairs(tc.input.N)
-		}
-	}
-}
-
-func BenchmarkClimbStairs2(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		for i := range climbStairsTestCases {
-			tc := climbStairsTestCases[i]
-			p.ClimbStairs2(tc.input.N)
-		}
 	}
 }
 

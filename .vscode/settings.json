@@ -1,0 +1,6 @@
+{
+    "go.testFlags": [
+        "-ginkgo.no-color",
+        "-ginkgo.v",
+    ],
+}
