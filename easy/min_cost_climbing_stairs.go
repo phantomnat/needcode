@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (p *Practice) FindMinCostClimbingStairs(cost []int) int {
 	n := len(cost)

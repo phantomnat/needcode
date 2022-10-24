@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (p *Practice) PlusOne(digits []int) []int {
 	add := 1

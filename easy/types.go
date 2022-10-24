@@ -1,5 +1,4 @@
-package arraynhashing
+package easy
 
 type Practice struct {
 }
-

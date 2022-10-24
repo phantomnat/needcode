@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (p *Practice) IsAnagram(s, t string) bool {
 	if len(s) != len(t) {

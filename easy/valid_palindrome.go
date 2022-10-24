@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (p *Practice) IsPalindrome(s string) bool {
 	l := 0

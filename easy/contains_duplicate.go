@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (p *Practice) ContainsDuplicate(nums []int) bool {
 	mem := make(map[int]struct{})

@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (_ Practice) IsHappyNumber(n int) bool {
 	mem := make(map[int]int)

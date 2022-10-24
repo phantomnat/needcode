@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 func (p *Practice) TwoSum(nums []int, target int) []int {
 	mem := make(map[int]int)

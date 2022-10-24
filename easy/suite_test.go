@@ -1,4 +1,4 @@
-package arraynhashing
+package easy
 
 import (
 	"encoding/json"
@@ -332,6 +332,35 @@ func TestPlusOne(t *testing.T) {
 	for i := range testCases {
 		tc := testCases[i]
 		actual := p.PlusOne(tc.input.Digits)
+		check(a, i, tc.expect, actual, tc.input)
+	}
+}
+
+func TestBestTimeToBuyAndSellStock(t *testing.T) {
+	a := assert.New(t)
+	type input struct {
+		Prices []int
+	}
+	testCases := []struct {
+		input  input
+		expect int
+	}{
+		{
+			input: input{
+				Prices: []int{7, 1, 5, 3, 6, 4},
+			},
+			expect: 5,
+		},
+		{
+			input: input{
+				Prices: []int{7, 6, 4, 3, 1},
+			},
+			expect: 0,
+		},
+	}
+	for i := range testCases {
+		tc := testCases[i]
+		actual := p.MaximizeProfit(tc.input.Prices)
 		check(a, i, tc.expect, actual, tc.input)
 	}
 }
