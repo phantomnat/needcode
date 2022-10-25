@@ -26,9 +26,41 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = Describe("easy problems", func() {
-	Describe("binary search", func ()  {
+
+	Describe("reverse linked list", func() {
 		type input struct {
-			Nums []int
+			Head *ListNode
+		}
+
+		var testCases = []struct {
+			input  input
+			expect *ListNode
+		}{
+			{
+				input: input{
+					Head: NewLinkedList([]int{1, 2, 3, 4, 5}),
+				},
+				expect: NewLinkedList([]int{5, 4, 3, 2, 1}),
+			},
+			{
+				input: input{
+					Head: nil,
+				},
+				expect: nil,
+			},
+		}
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := p.ReverseLinkedList(tc.input.Head)
+				check2(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
+
+	Describe("binary search", func() {
+		type input struct {
+			Nums   []int
 			Target int
 		}
 
@@ -38,14 +70,14 @@ var _ = Describe("easy problems", func() {
 		}{
 			{
 				input: input{
-					Nums: []int{-1,0,3,5,9,12},
+					Nums:   []int{-1, 0, 3, 5, 9, 12},
 					Target: 9,
 				},
 				expect: 4,
 			},
 			{
 				input: input{
-					Nums: []int{-1,0,3,5,9,12},
+					Nums:   []int{-1, 0, 3, 5, 9, 12},
 					Target: 2,
 				},
 				expect: -1,
@@ -60,8 +92,7 @@ var _ = Describe("easy problems", func() {
 		})
 	})
 
-
-	Describe("valid parentheses", func ()  {
+	Describe("valid parentheses", func() {
 		type input struct {
 			S string
 		}
@@ -78,7 +109,7 @@ var _ = Describe("easy problems", func() {
 			},
 			{
 				input: input{
-					S:"([)]",
+					S: "([)]",
 				},
 				expect: false,
 			},
