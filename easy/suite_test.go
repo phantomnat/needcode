@@ -26,8 +26,42 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = Describe("easy problems", func() {
+	Describe("binary search", func ()  {
+		type input struct {
+			Nums []int
+			Target int
+		}
 
-	FDescribe("valid parentheses", func ()  {
+		var testCases = []struct {
+			input  input
+			expect int
+		}{
+			{
+				input: input{
+					Nums: []int{-1,0,3,5,9,12},
+					Target: 9,
+				},
+				expect: 4,
+			},
+			{
+				input: input{
+					Nums: []int{-1,0,3,5,9,12},
+					Target: 2,
+				},
+				expect: -1,
+			},
+		}
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := p.BinarySearch(tc.input.Nums, tc.input.Target)
+				check2(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
+
+
+	Describe("valid parentheses", func ()  {
 		type input struct {
 			S string
 		}
@@ -108,7 +142,7 @@ var _ = Describe("easy problems", func() {
 			}
 		})
 
-		It("benchmark", decorators.Serial, func() {
+		XIt("benchmark", decorators.Serial, func() {
 			expr := gmeasure.NewExperiment("climb stairs benchmark")
 			ginkgo.AddReportEntry(expr.Name, expr)
 
