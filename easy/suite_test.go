@@ -3,6 +3,7 @@ package easy
 import (
 	"encoding/json"
 	"math"
+	"strings"
 	"testing"
 	"time"
 
@@ -27,6 +28,38 @@ var _ = BeforeSuite(func() {
 
 var _ = Describe("easy problems", func() {
 
+	FDescribe("linked list cycle", func() {
+		type input struct {
+			Head *ListNode
+		}
+		tc1Head := NewLinkedList([]int{1, 2, 3, 4, 5})
+		tc1Head.Next.Next.Next.Next.Next = tc1Head.Next
+		var testCases = []struct {
+			input  input
+			expect bool
+		}{
+			{
+				input: input{
+					Head: tc1Head,
+				},
+				expect: true,
+			},
+			{
+				input: input{
+					Head: NewLinkedList([]int{1}),
+				},
+				expect: false,
+			},
+		}
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := p.FindLinkedListCycle(tc.input.Head)
+				check2(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
+
 	Describe("merge two sorted list", func() {
 		type input struct {
 			List1 *ListNode
@@ -39,9 +72,9 @@ var _ = Describe("easy problems", func() {
 			{
 				input: input{
 					List1: NewLinkedList([]int{1, 2, 3, 4, 5}),
-					List2: NewLinkedList([]int{1,4,5}),
+					List2: NewLinkedList([]int{1, 4, 5}),
 				},
-				expect: NewLinkedList([]int{1,1,2,3,4,4,5,5}),
+				expect: NewLinkedList([]int{1, 1, 2, 3, 4, 4, 5, 5}),
 			},
 			{
 				input: input{
@@ -228,8 +261,13 @@ var _ = Describe("easy problems", func() {
 })
 
 func check2(i int, expect, actual, input any) {
-	raw, _ := json.Marshal(input)
-	g.Expect(actual).WithOffset(1).To(g.Equal(expect), "test case %d with input %s", i, string(raw))
+	sb := &strings.Builder{}
+	enc := json.NewEncoder(sb)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	enc.Encode(input)
+	// raw, _ := json.MarshalIndent(input, "", "  ")
+	g.Expect(actual).WithOffset(1).To(g.Equal(expect), "test case %d with input %s", i, sb.String())
 }
 
 func TestContainsDuplicate(t *testing.T) {
