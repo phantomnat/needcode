@@ -27,6 +27,39 @@ var _ = BeforeSuite(func() {
 
 var _ = Describe("easy problems", func() {
 
+	Describe("merge two sorted list", func() {
+		type input struct {
+			List1 *ListNode
+			List2 *ListNode
+		}
+		var testCases = []struct {
+			input  input
+			expect *ListNode
+		}{
+			{
+				input: input{
+					List1: NewLinkedList([]int{1, 2, 3, 4, 5}),
+					List2: NewLinkedList([]int{1,4,5}),
+				},
+				expect: NewLinkedList([]int{1,1,2,3,4,4,5,5}),
+			},
+			{
+				input: input{
+					List1: nil,
+					List2: nil,
+				},
+				expect: nil,
+			},
+		}
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := p.MergeTwoSortedList(tc.input.List1, tc.input.List2)
+				check2(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
+
 	Describe("reverse linked list", func() {
 		type input struct {
 			Head *ListNode
