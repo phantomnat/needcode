@@ -3,7 +3,6 @@ package easy
 import (
 	"encoding/json"
 	"math"
-	"strings"
 	"testing"
 	"time"
 
@@ -13,6 +12,8 @@ import (
 	g "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gmeasure"
 	"github.com/stretchr/testify/assert"
+
+	"neetcode/test"
 )
 
 var p = &Practice{}
@@ -28,7 +29,7 @@ var _ = BeforeSuite(func() {
 
 var _ = Describe("easy problems", func() {
 
-	FDescribe("linked list cycle", func() {
+	Describe("linked list cycle", func() {
 		type input struct {
 			Head *ListNode
 		}
@@ -55,7 +56,7 @@ var _ = Describe("easy problems", func() {
 			for i := range testCases {
 				tc := testCases[i]
 				actual := p.FindLinkedListCycle(tc.input.Head)
-				check2(i, tc.expect, actual, tc.input)
+				test.Check(i, tc.expect, actual, tc.input)
 			}
 		})
 	})
@@ -88,7 +89,7 @@ var _ = Describe("easy problems", func() {
 			for i := range testCases {
 				tc := testCases[i]
 				actual := p.MergeTwoSortedList(tc.input.List1, tc.input.List2)
-				check2(i, tc.expect, actual, tc.input)
+				test.Check(i, tc.expect, actual, tc.input)
 			}
 		})
 	})
@@ -119,7 +120,7 @@ var _ = Describe("easy problems", func() {
 			for i := range testCases {
 				tc := testCases[i]
 				actual := p.ReverseLinkedList(tc.input.Head)
-				check2(i, tc.expect, actual, tc.input)
+				test.Check(i, tc.expect, actual, tc.input)
 			}
 		})
 	})
@@ -153,7 +154,7 @@ var _ = Describe("easy problems", func() {
 			for i := range testCases {
 				tc := testCases[i]
 				actual := p.BinarySearch(tc.input.Nums, tc.input.Target)
-				check2(i, tc.expect, actual, tc.input)
+				test.Check(i, tc.expect, actual, tc.input)
 			}
 		})
 	})
@@ -184,7 +185,7 @@ var _ = Describe("easy problems", func() {
 			for i := range testCases {
 				tc := testCases[i]
 				actual := p.ValidParentheses(tc.input.S)
-				check2(i, tc.expect, actual, tc.input)
+				test.Check(i, tc.expect, actual, tc.input)
 			}
 		})
 	})
@@ -235,7 +236,7 @@ var _ = Describe("easy problems", func() {
 			for i := range testCases {
 				tc := testCases[i]
 				actual := p.ClimbStairs(tc.input.N)
-				check2(i, tc.expect, actual, tc.input)
+				test.Check(i, tc.expect, actual, tc.input)
 			}
 		})
 
@@ -259,16 +260,6 @@ var _ = Describe("easy problems", func() {
 		})
 	})
 })
-
-func check2(i int, expect, actual, input any) {
-	sb := &strings.Builder{}
-	enc := json.NewEncoder(sb)
-	enc.SetEscapeHTML(false)
-	enc.SetIndent("", "  ")
-	enc.Encode(input)
-	// raw, _ := json.MarshalIndent(input, "", "  ")
-	g.Expect(actual).WithOffset(1).To(g.Equal(expect), "test case %d with input %s", i, sb.String())
-}
 
 func TestContainsDuplicate(t *testing.T) {
 	a := assert.New(t)

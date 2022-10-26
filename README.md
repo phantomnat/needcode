@@ -1,2 +1,2 @@
-## needcode
+## neetcode
 - https://neetcode.io/practice
