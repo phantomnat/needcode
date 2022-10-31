@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"neetcode/test"
+	"neetcode/types"
 )
 
 var p = &Practice{}
@@ -28,6 +29,30 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = Describe("easy problems", func() {
+
+	FDescribe("invert tree", func() {
+		type input struct {
+			Root *types.TreeNode
+		}
+		var testCases = []struct {
+			input  input
+			expect *types.TreeNode
+		}{
+			{
+				input: input{
+					Root: types.NewTreeNodeFromInts(4,2,7,1,3,6,9),
+				},
+				expect: types.NewTreeNodeFromInts(4,7,2,9,6,3,1),
+			},
+		}
+		It("check", func() {
+			for i := range testCases {
+				tc := testCases[i]
+				actual := invertTree(tc.input.Root)
+				test.Check(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
 
 	Describe("kth largest element in a stream", func() {
 		type input struct {
