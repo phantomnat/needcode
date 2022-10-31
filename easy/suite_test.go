@@ -29,6 +29,92 @@ var _ = BeforeSuite(func() {
 
 var _ = Describe("easy problems", func() {
 
+	Describe("kth largest element in a stream", func() {
+		type input struct {
+			Val int
+		}
+		var _ = []struct {
+			input  input
+			expect int
+		}{
+			{
+				input: input{
+					Val: 3,
+				},
+				expect: 4,
+			},
+			{
+				input: input{
+					Val: 5,
+				},
+				expect: 5,
+			},
+			{
+				input: input{
+					Val: 10,
+				},
+				expect: 5,
+			},
+			{
+				input: input{
+					Val: 9,
+				},
+				expect: 8,
+			},
+			{
+				input: input{
+					Val: 4,
+				},
+				expect: 8,
+			},
+		}
+
+		var testCases2 = []struct {
+			input  input
+			expect int
+		}{
+			{
+				input: input{
+					Val: 3,
+				},
+				expect: 3,
+			},
+			{
+				input: input{
+					Val: 5,
+				},
+				expect: 5,
+			},
+			{
+				input: input{
+					Val: 10,
+				},
+				expect: 10,
+			},
+			{
+				input: input{
+					Val: 9,
+				},
+				expect: 10,
+			},
+			{
+				input: input{
+					Val: 4,
+				},
+				expect: 10,
+			},
+		}
+		It("check", func() {
+			st := NewKthLargest(1, nil)
+			// st := NewKthLargest(3, []int{4, 5, 8, 2})
+			for i := range testCases2 {
+				tc := testCases2[i]
+				actual := st.Add(tc.input.Val)
+				test.Check(i, tc.expect, actual, tc.input)
+			}
+		})
+	})
+
 	Describe("linked list cycle", func() {
 		type input struct {
 			Head *ListNode
